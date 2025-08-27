@@ -24,7 +24,6 @@
       showMsg('As senhas não coincidem.', true);
       return;
     }
-
     // Simula sucesso de cadastro
     showMsg('Cadastro realizado com sucesso!');
     form.reset();
