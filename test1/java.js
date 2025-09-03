@@ -39,8 +39,11 @@ function setErrorFor(input) {
     const formControl = input.parentElement;
     const small = formControl.querySelector('small')
 
-    //adiciona a classe de erro
-    formControl.className = 'form-control sucess'
+    // limpa a mensagem de erro
+    small.innerText = '';
+
+    //adiciona a classe de sucesso
+    formControl.className = 'form-control success'
 }
 
 
