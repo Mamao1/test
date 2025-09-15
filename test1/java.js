@@ -1,54 +1,81 @@
-const form = document.getElementById('form')
-const username = document.getElementById('username')
-const email = document.getElementById('email')
-const password = document.getElementById('password')
-const passwordConfirmation = document.getElementById('passwordConfirmation')
+const form = document.getElementById('form');
+const username = document.getElementById('username');
+const email = document.getElementById('email');
+const password = document.getElementById('password');
+const passwordConfirmation = document.getElementById('password-confirmation');
 
+// PF e PJ
+const tipo = document.getElementById('tipo');
+const pfCampos = document.getElementById('pf-campos');
+const pjCampos = document.getElementById('pj-campos');
 
 form.addEventListener('submit', (e) => {
-    e.preventDeFault()
-
-    checkInputs()
-})
+  e.preventDefault();
+  checkInputs();
+});
 function checkInputs() {
-    const usernameValue = username.value;
-    const emailValue = email.Value;
-    const passwordValue = password.value;
-    const passwordConfirmationValue = passwordConfirmation.Value;
+  const usernameValue = username.value.trim();
+  const emailValue = email.value.trim();
+  const passwordValue = password.value.trim();
+  const passwordConfirmationValue = passwordConfirmation.value.trim();
 
-    if(usernameValue === '') {
-        setErrorFor(username, 'o nome do usúario é obrigatório')
-    } else {
-        setSuccessFor(username)
-    }
+  if (usernameValue === '') {
+    setErrorFor(username, 'O nome de usuário é obrigatório');
+  } else {
+    setSuccessFor(username);
+  }
 
+  if (emailValue === '') {
+    setErrorFor(email, 'O email é obrigatório');
+  } else if (!checkEmail(emailValue)) {
+    setErrorFor(email, 'Email inválido');
+  } else {
+    setSuccessFor(email);
+  }
+
+  if (passwordValue === '') {
+    setErrorFor(password, 'A senha é obrigatória');
+  } else {
+    setSuccessFor(password);
+  }
+
+  if (passwordConfirmationValue === '') {
+    setErrorFor(passwordConfirmation, 'A confirmação de senha é obrigatória');
+  } else if (passwordConfirmationValue !== passwordValue) {
+    setErrorFor(passwordConfirmation, 'As senhas não conferem');
+  } else {
+    setSuccessFor(passwordConfirmation);
+  }
 }
 
-
+// funções de erro/sucesso
 function setErrorFor(input, message) {
-    const formControl = input.parentElement;
-    const small = formControl.querySelector('small')
-
-    // adiciona mensagem de erro
-    small.innerText = message
-
-    //adiciona a classe de erro
-    formControl.className = 'form-control error'
-}
-function setErrorFor(input) {
-    const formControl = input.parentElement;
-    const small = formControl.querySelector('small')
-
-    // limpa a mensagem de erro
-    small.innerText = '';
-
-    //adiciona a classe de sucesso
-    formControl.className = 'form-control success'
+  const formControl = input.parentElement;
+  const small = formControl.querySelector('small');
+  small.innerText = message;
+  formControl.className = 'form-control error';
 }
 
+function setSuccessFor(input) {
+  const formControl = input.parentElement;
+  const small = formControl.querySelector('small');
+  small.innerText = '';
+  formControl.className = 'form-control success';
+}
 
+// regex simples para email
 function checkEmail(email) {
-    return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-    email
-    );
-    }
+  return /\S+@\S+\.\S+/.test(email);
+}
+
+// mostrar/esconder campos PF/PJ
+function mostrarCampos() {
+  pfCampos.classList.add('hidden');
+  pjCampos.classList.add('hidden');
+
+  if (tipo.value === 'pf') {
+    pfCampos.classList.remove('hidden');
+  } else if (tipo.value === 'pj') {
+    pjCampos.classList.remove('hidden');
+  }
+}
